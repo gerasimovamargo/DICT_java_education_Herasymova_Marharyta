@@ -8,6 +8,9 @@ public class ChatBot {
         System.out.println("Hello! My name is SomeBot");
         System.out.println("I was created in 2023");
 
-
+        System.out.println("Please remind me your name.");
+        Scanner in = new Scanner(System.in);
+        String answer = in.nextLine();
+        System.out.printf("What a great name you have, %s!%n", answer);
     }
 }
