@@ -3,4 +3,3 @@ public class HelloGit {
         System.out.println("My first Java Project");
     }
 }
-
