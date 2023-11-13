@@ -13,26 +13,50 @@ public class Hangman {
         int select = random.nextInt(answers.length);
         String correctAnswer = answers[select];
 
-        String tip = correctAnswer.substring(0, 2) + "-".repeat(Math.max(0, correctAnswer.length() - 2));
-        System.out.printf("Tip: the word is %s!%n", tip);
+        char[] guessedLetters = new char[correctAnswer.length()];
+        for (int i = 0; i < guessedLetters.length; i++) {
+            guessedLetters[i] = '-';
+        }
 
-          System.out.print("Guess the word: ");
-                Scanner scanner = new Scanner(System.in);
-                String userAnswer = scanner.nextLine();
+        int remainingAttempts = 8;
 
-        if (userAnswer.equals(correctAnswer)) {
-            System.out.println("You survived!");
-        } else {
-            while (!userAnswer.equals(correctAnswer)) {
-                System.out.println("You lost!");
-                System.out.printf("Tip: the words is %s!%n", tip);
-                System.out.print("Guess the word: ");
-                userAnswer = scanner.nextLine();
+        while (remainingAttempts > 0) {
+            System.out.println("Guessed word: " + new String(guessedLetters));
+            System.out.println("Attempts left: " + remainingAttempts);
+
+            System.out.print("Input a letter: ");
+            Scanner scanner = new Scanner(System.in);
+            char inputLetter = scanner.nextLine().charAt(0);
+
+            boolean letterGuessed = false;
+            for (int i = 0; i < correctAnswer.length(); i++) {
+                if (correctAnswer.charAt(i) == inputLetter) {
+                    guessedLetters[i] = inputLetter;
+                    letterGuessed = true;
+                }
             }
-            System.out.println("You survived!");
 
+            if (!letterGuessed) {
+                System.out.println("That letter doesn't appear in the word");
+                remainingAttempts--;
+            }
 
+            boolean allLettersGuessed = true;
+            for (char letter : guessedLetters) {
+                if (letter == '-') {
+                    allLettersGuessed = false;
+                    break;
+                }
+            }
+
+            if (allLettersGuessed) {
+                System.out.println("Congratulations! You guessed the word: " + correctAnswer);
+                break;
+            }
+        }
+
+        if (remainingAttempts == 0) {
+            System.out.println("Sorry, you ran out of attempts. The correct word was: " + correctAnswer);
         }
     }
 }
-
