@@ -1,11 +1,15 @@
 package CoffeeMachine;
-import java.util.Scanner;
-public class CoffeeIngredient {
-        int water;
-        int milk;
-        int beans;
 
-    void fill() {
+import java.util.Scanner;
+
+public class CoffeeIngredient {
+    public int water = 400;
+    public int milk = 540;
+    public int beans = 120;
+    public int money = 550;
+    public int cups = 9;
+
+    public void fill() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Write how many ml of water the coffee machine has: ");
         String waterS = scanner.nextLine();
@@ -18,7 +22,7 @@ public class CoffeeIngredient {
         beans = Integer.parseInt(beansS);
     }
 
-    void possibleCups() {
+    public void possibleCups() {
         int[] resourcesForMoment = {water, milk, beans};
         Scanner scanner = new Scanner(System.in);
         System.out.print("Write how many cups of coffee you want: ");
@@ -26,7 +30,7 @@ public class CoffeeIngredient {
         int nCups = Integer.parseInt(nCupsS);
         int availableCups = 0;
         while ((water - 200) >= 0 && (milk - 50) >= 0 && (beans - 15) >= 0) {
-            availableCups ++;
+            availableCups++;
             water -= 200;
             milk -= 50;
             beans -= 15;
@@ -43,6 +47,52 @@ public class CoffeeIngredient {
         milk = resourcesForMoment[1];
         beans = resourcesForMoment[2];
     }
+
+    public void status() {
+        System.out.print("The coffee machine has: ");
+        System.out.printf("%d ml of water%n", water);
+        System.out.printf("%d ml of milk%n", milk);
+        System.out.printf("%d g of beans%n", beans);
+        System.out.printf("%d cups%n", cups);
+        System.out.printf("%d grn of money%n", money);
+    }
+
+    public void take() {
+        money = 0;
+    }
+
+    public void espresso() {
+        if ((water - 250) >= 0 && (beans - 16) >= 0) {
+            water -= 250;
+            beans -= 16;
+            cups -= 1;
+            money += 4;
+        } else {
+            System.out.println("Not enough ingredients");
+        }
+    }
+
+    public void latte() {
+        if ((water - 350) >= 0 && (milk - 75) >= 0 && (beans - 20) >= 0) {
+            water -= 350;
+            milk -= 75;
+            beans -= 20;
+            cups -= 1;
+            money += 7;
+        } else {
+            System.out.println("Not enough ingredients");
+        }
+    }
+
+    public void cappuccino() {
+        if ((water - 200) >= 0 && (milk - 100) >= 0 && (beans - 12) >= 0) {
+            water -= 200;
+            milk -= 100;
+            beans -= 12;
+            cups -= 1;
+            money += 6;
+        } else {
+            System.out.println("Not enough ingredients");
+        }
+    }
 }
-
-
