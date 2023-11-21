@@ -1,43 +1,30 @@
 package CoffeeMachine;
-
 import java.util.Scanner;
 
 public class CoffeeMachine {
+    static int state = 1;
+    /*1 - menu, 2 - buy, 3 - fill*/
+
     public static void main(String[] args) {
         CoffeeIngredient ingredients = new CoffeeIngredient();
 
-
-        while (true) {
-            if (!menu(ingredients)) {
-                break;
-            }
+        while (state != 0) {
+            answerHandler(state, ingredients);
         }
     }
 
-    static boolean menu(CoffeeIngredient ingredients) {
-        ingredients.status();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Write action (buy, fill, take, remaining, exit):");
-        String answer = scanner.nextLine();
-
+    static void menu(CoffeeIngredient ingredients, String answer) {
         switch (answer) {
-            case "buy" -> buy(ingredients);
-            case "fill" -> ingredients.fill();
+            case "buy" -> state = 2;
+            case "fill" -> state = 3;
             case "take" -> ingredients.take();
-            case "exit" -> {
-                return false;
-            }
+            case "exit" -> System.exit(0);
             case "remaining" -> ingredients.status();
             default -> System.out.println("Incorrect input!");
         }
-        return true;
     }
 
-    static void buy(CoffeeIngredient ingredients) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3" +
-                " - cappuccino or back to return to main menu:");
-        String answer = scanner.nextLine();
+    static void buy(CoffeeIngredient ingredients, String answer) {
         switch (answer) {
             case "1":
                 ingredients.espresso();
@@ -59,6 +46,42 @@ public class CoffeeMachine {
                 break;
         }
     }
+
+    static void answerHandler(int s, CoffeeIngredient ingredients) {
+        Scanner scanner = new Scanner(System.in);
+        String[] outputOptions = {"Write action (buy, fill, take, remaining, exit):",
+                "What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino or back to return to main menu:"};
+        switch (s) {
+            case 1:
+                System.out.println(outputOptions[0]);
+                break;
+            case 2:
+                System.out.println(outputOptions[1]);
+                break;
+            case 3:
+                if (ingredients.row == 0) {
+                    ingredients.row = 1;
+                }
+                ingredients.fillAsk();
+                break;
+        }
+        String answer = scanner.nextLine();
+
+        switch (s) {
+            case 1:
+                menu(ingredients, answer);
+                break;
+            case 2:
+                buy(ingredients, answer);
+                state = 1;
+                break;
+            case 3:
+                ingredients.fill(answer);
+                if (ingredients.row > 4) {
+                    ingredients.row = 0;
+                    state = 1;
+                }
+                break;
+        }
+    }
 }
-
-
